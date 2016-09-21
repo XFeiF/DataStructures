@@ -19,8 +19,8 @@ bool insertList(PNODE,int,DataType); //在第pos个节点的后面插入一个�
 
 bool findKth(PNODE,int K, DataType& x);//找到链表第K位置的节点，将数据返回给x
 
-unsigned int searchX(PNODE,const DataType& x);//在链表中找值为x 的节点,返回位置，-1表示不存在
+int searchX(PNODE,const DataType& x);//在链表中找值为x 的节点,返回位置，-1表示不存在
 
-bool deleteList(PNODE,int,int *); //删除第pos个节点，并将删除的数据保存在pData指针所指向的位置
+bool deleteList(PNODE,int,DataType& x); //删除第pos个节点，并将删除的数据保存在pData指针所指向的位置
 
 void clearList(PNODE);//清空链表，即使链表只剩下头节点（头节点中没有数据）

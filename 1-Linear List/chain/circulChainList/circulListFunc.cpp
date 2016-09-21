@@ -39,6 +39,7 @@ void traverseList(PNODE pHead){
         cout<<pCurrent->data<<"  ";
         pCurrent = pCurrent->next;
     }
+    getchar();
     cout<<endl;
 }
 
@@ -87,7 +88,7 @@ bool insertList(PNODE pHead,int pos,DataType val){
 }
 
 //找到链表当前节点向后的第K位置的节点，将数据返回给x
-bool findKth(PNODE pHead,int K, DataType& x){
+bool findKth(PNODE pHead,int k, DataType& x){
     int length = getLength(pHead);
     PNODE pCurrent;
     pCurrent = pHead;
@@ -104,7 +105,7 @@ bool findKth(PNODE pHead,int K, DataType& x){
 }
 
 //在链表中找值为x 的节点,返回位置，-1表示不存在  从头节点开始寻找
-unsigned int searchX(PNODE pHead,const DataType& x){
+int searchX(PNODE pHead,const DataType& x){
     int length = getLength(pHead);
     PNODE pCurrent;
     pCurrent = pHead;
@@ -118,18 +119,18 @@ unsigned int searchX(PNODE pHead,const DataType& x){
     return -2;
 }
 
-//删除第pos个节点，并将删除的数据保存在pData指针所指向的位置
-bool deleteList(PNODE pHead,int pos,DataType *pData){
+//删除第pos个节点，并将删除的数据保存在x中
+bool deleteList(PNODE pHead,int pos, DataType& x){
     if(!isEmpty(pHead)){
         int length = getLength(pHead);
         if(pos >=0 && pos < length){
 
             PNODE pCurrent,pPos;
             pCurrent = pHead->next;
-            for(int i = 0; i < pos-1; i++)
+            for(int i = 0; i < pos-2; i++)
                 pCurrent = pCurrent->next;
             pPos = pCurrent->next;
-            *pData = pPos->data;
+            x = pPos->data;
             pCurrent->next = pPos->next;
             free(pPos);
             pPos = NULL;

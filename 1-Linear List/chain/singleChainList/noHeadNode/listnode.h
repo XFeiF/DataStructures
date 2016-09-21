@@ -2,25 +2,22 @@ typedef int DataType;
 typedef struct NODE{
     DataType data;
     NODE *next;
-}Node;
-Node *root;
+}Node, *PNODE;
 
-void inputData(Node *); //输入链表数据函数
+PNODE createList();//创建一个链表,并返回头指针
 
-bool isEmpty(Node *);       //空链表检测
+void traverseList(PNODE);//遍历链表
 
-unsigned int getLength(Node *first);      //链表长度
+bool isEmpty(PNODE);//判断链表是否为空
 
-bool findKth(Node *first,int k, DataType& x);//找到链表第K位置的节点，将数据返回给x
+int getLength(PNODE); //求链表长度，即节点总数（不计入头节点）
 
-unsigned int searchX(Node *first,const DataType& x);//在链表中找值为x 的节点,返回位置，-1表示不存在
+bool insertList(PNODE,int,DataType); //在第pos个节点的后面插入一个新的节点，该节点中的数据为val
 
-bool sellPreInsert(Node *first,int k,const DataType& x);  //在链表的第K位置前插入节点
+bool findKth(PNODE,int K, DataType& x);//找到链表第K位置的节点，将数据返回给x
 
-bool sellAfterInsert(Node *first, int k, const DataType& x); //在链表的第K位置后插入节点
+int searchX(PNODE,const DataType& x);//在链表中找值为x 的节点,返回位置，-1表示不存在
 
-bool sellDelete(Node *first,int k,DataType& x);//删除链表第K位置的节点，将数据返回给X
+bool deleteList(PNODE,int,DataType& x); //删除第pos个节点，并将删除的数据保存在x中
 
-void showList(Node *);   //显示链表数据函数
-
-void freeList(Node *);   //释放链表
+void clearList(PNODE);//清空链表
