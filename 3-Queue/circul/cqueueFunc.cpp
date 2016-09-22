@@ -15,7 +15,7 @@ PCQUEUE create(int size){
     pQ->MaxSize = size;
     pQ->front = pQ->rear = 0;
     pQ->count = 0;
-    pQ->data = (DataType)malloc(sizeof(DataType)*MaxSize);
+    pQ->data = (DataType*)malloc(sizeof(DataType)*size);
     if(pQ->data == NULL){
         cout<<"malloc failed\n";
         exit(-1);
@@ -30,20 +30,20 @@ bool isEmpty(PCQUEUE pQ){
 
 //判断队列满
 bool isFull(PCQUEUE pQ){
-    return pQ->count == pQ->MaxSize;
+    return pQ->front ==  (pQ->rear + 1)% pQ->MaxSize;
 }
 
 //返回队列头部元素给x
-void getFrom(PCQUEUE pQ,DataType& x){
+void getFront(PCQUEUE pQ,DataType& x){
     if(!isEmpty(pQ)){
-        x = pQ->data[front];
+        x = pQ->data[pQ->front];
     }
 }
 
 //弹出队列头部元素，并赋值给x
 bool deQueue(PCQUEUE pQ,DataType& x){
     if (!isEmpty(pQ)) {
-        x = pQ->data[front];
+        x = pQ->data[pQ->front];
         pQ->front = (pQ->front+1)%pQ->MaxSize;
         pQ->count--;
         return true;
@@ -54,22 +54,22 @@ bool deQueue(PCQUEUE pQ,DataType& x){
 //x入队列尾
 bool enQueue(PCQUEUE pQ,const DataType x){
     if(!isFull(pQ)){
-        pQ->rear =(pQ->rear + 1)%pQ->MaxSize;
-        pQ->data[rear] = x;
+        pQ->data[pQ->rear] = x;
         pQ->count++;
+        pQ->rear = (pQ->rear + 1) % pQ->MaxSize;
         return true;
     }
     return false;
 }
 
 //遍历队列中元素
-bool traverseQueue(PCQUEUE pQ){
+void traverseQueue(PCQUEUE pQ){
     if(!isEmpty(pQ)){
         int current = pQ->front;
-        cout<<"Circul list data:[";
-        while(current%pQ->count!=pQ->rear){
+        cout<<"Circul Queue data:[";
+        while(current != pQ->rear){
             cout<<pQ->data[current]<<"  ";
-            current++;
+            current = (current + 1) % pQ->MaxSize;
         }
         cout<<"]\n";
     }

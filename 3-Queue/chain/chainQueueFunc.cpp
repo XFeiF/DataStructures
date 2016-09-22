@@ -16,6 +16,7 @@ PCQUEUE createQueue(){
         cout<<"malloc failed\n";
         exit(-1);
     }
+    pQ->count = 0;
     pQ->pRear = pQ->pFront;
     pQ->pFront->next = NULL;
     return pQ;
@@ -29,7 +30,7 @@ bool isEmpty(PCQUEUE pQ){
 //返回队列头部元素给x
 void getFront(PCQUEUE pQ,DataType& x){
     if(!isEmpty(pQ)){
-        x = pQ->pFront->data;
+        x = pQ->pFront->next->data;
         return;
     }
 }
@@ -74,7 +75,7 @@ bool enQueue(PCQUEUE pQ,const DataType x){
 }
 
 //遍历队列中元素
-bool traverseQueue(PCQUEUE pQ){
+void traverseQueue(PCQUEUE pQ){
     cout<<"chain queue data:[";
     PNODE pCurrent = pQ->pFront->next;
     while(pCurrent){

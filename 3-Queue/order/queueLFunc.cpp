@@ -15,7 +15,7 @@ PQUEUE create(int size){
     pQ->MaxSize = size;
     pQ->front = 0;
     pQ->rear = -1;
-    pQ->data = (DataType)malloc(sizeof(DataType)*MaxSize);
+    pQ->data = (DataType*)malloc(sizeof(DataType)*size);
     if(pQ->data == NULL){
         cout<<"malloc failed\n";
         exit(-1);
@@ -39,9 +39,9 @@ unsigned int getLength(PQUEUE pQ){
 }
 
 //返回队列头部元素给x
-void getFrom(PQUEUE pQ,DataType& x){
+void getFront(PQUEUE pQ,DataType& x){
     if(!isEmpty(pQ)){
-        x = pQ->data[front];
+        x = pQ->data[pQ->front];
         return;
     }
 }
@@ -49,8 +49,8 @@ void getFrom(PQUEUE pQ,DataType& x){
 //弹出队列头部元素，并赋值给x
 bool deQueue(PQUEUE pQ,DataType& x){
     if(!isEmpty(pQ)){
-        x = pQ->data[front];
-        front++;
+        x = pQ->data[pQ->front];
+        pQ->front++;
         return true;
     }
     return false;
@@ -59,8 +59,8 @@ bool deQueue(PQUEUE pQ,DataType& x){
 //x入队列尾
 bool enQueue(PQUEUE pQ,const DataType x){
     if(!isFull(pQ)){
-        rear++;
-        pQ->data[rear] = x;
+        pQ->rear++;
+        pQ->data[pQ->rear] = x;
         return true;
     }
     return false;
@@ -69,8 +69,8 @@ bool enQueue(PQUEUE pQ,const DataType x){
 //遍历队列中元素
 bool traverseQueue(PQUEUE pQ){
     cout<<"Queue data:[";
-    int current = front;
-    while(current<=rear){
+    int current = pQ->front;
+    while(current <= pQ->rear){
         cout<<pQ->data[current++]<<"  ";
     }
     cout<<"]\n";

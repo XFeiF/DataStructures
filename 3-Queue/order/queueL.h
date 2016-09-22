@@ -19,7 +19,7 @@ bool isFull(PQUEUE);//判断队列满
 
 unsigned int getLength(PQUEUE);//获得队列的长度
 
-void getFrom(PQUEUE,DataType& x);//返回队列头部元素给x
+void getFront(PQUEUE,DataType& x);//返回队列头部元素给x
 
 bool deQueue(PQUEUE,DataType& x);//弹出队列头部元素，并赋值给x
 
