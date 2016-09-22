@@ -14,7 +14,7 @@ pStack create(int size){
 
     pS->MaxSize = size;
     pS->top = -1;
-    pS->data = (DataType)malloc(sizeof(MaxSize*sizeof(DataType)));
+    pS->data = (DataType*)malloc(sizeof(pS->MaxSize*sizeof(DataType)));
 
     return pS;
 }
@@ -38,11 +38,11 @@ unsigned int getLength(pStack pS){
 //返回栈顶元素给x
 void getTop(pStack pS,DataType& x){
     if(!isEmpty(pS))
-        x = pS->data[ps->top + 1];
+        x = pS->data[pS->top];
 }
 
 //弹出栈顶元素，并赋值给x
-bool popStack(pSatck pS,DataType& x){
+void popStack(pStack pS,DataType& x){
     getTop(pS,x);
     pS->top--;
 }
@@ -50,7 +50,7 @@ bool popStack(pSatck pS,DataType& x){
 //x入栈
 bool pushStack(pStack pS,const DataType x){
     if(!isFull(pS)){
-        pS->data[++ps->top]=x;
+        pS->data[++pS->top]=x;
         return true;
     }
     return false;

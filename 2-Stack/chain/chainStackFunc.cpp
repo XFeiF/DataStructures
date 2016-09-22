@@ -19,7 +19,7 @@ PSTACK createStack(){
 }
 
 //判断栈是否为空
-bool isEmpty(PSATCK pS){
+bool isEmpty(PSTACK pS){
     if(pS->pTop == pS->pBottom)
         return true;
     return false;
@@ -50,11 +50,11 @@ void traverseStack(PSTACK pS){
 }
 
 //栈非空，弹栈
-bool popStack(PSTACK pS,DataType *pData){
+bool popStack(PSTACK pS,DataType &x){
     if(!isEmpty(pS)){
         PNODE p = pS->pTop;
-        *pData = p->data;
-        pS->pTop = p->Next;
+        x = p->data;
+        pS->pTop = p->next;
         free(p);
         p = NULL;
         return true;

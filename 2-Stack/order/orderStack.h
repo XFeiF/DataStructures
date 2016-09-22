@@ -19,7 +19,7 @@ unsigned int getLength(pStack);//获得栈的长度
 
 void getTop(pStack,DataType& x);//返回栈顶元素给x
 
-bool popStack(pSatck,DataType& x);//弹出栈顶元素，并赋值给x
+void popStack(pStack,DataType& x);//弹出栈顶元素，并赋值给x
 
 bool pushStack(pStack,const DataType x);//x入栈
 
