@@ -1,4 +1,3 @@
-#include "biTree.h"
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -6,42 +5,40 @@ using namespace std;
 
 
 // judge empty
-bool isEmpty(BTree &T){
+bool isEmpty(BTree T){
     if(!T) return true;
     else return false;
 }
 
 
 // find the size of the binary tree
-int findSize(BTree &T){
-    int size;
-    if(isEmpty(T)) return 0;
-    if(T->left){
+void findSize(BTree T, int &size){
+    if(!isEmpty(T)) {
         size++;
-        findSize(T->left);
-    }
-    if(T->right){
-        size++;
-        findSize(T->right);
-    }
-    return size + 1;
+        findSize(T->left, size);
+        findSize(T->right, size);
+    }else return;
 }
 
-int getDepth(BTree &T){
+int getDepth(BTree T){
     int depth, lDepth, rDepth;
     if(isEmpty(T)) return 0;
-    lDepth = getDepth(T->left);
-    rDepth = getDepth(T->right);
-
-    return depth = (lDepth>rDepth) ? lDepth : rDepth;
+    lDepth = getDepth(T->left) + 1;
+    rDepth = getDepth(T->right) + 1;
+    depth = (lDepth>rDepth) ? lDepth : rDepth;
+    // cout<<"depth = " << depth << endl;
+    return depth;
 
 }
 
 // Finds the element x in the binary tree
-bool find(BTree &T, const DataType x){
-    if(T->data == x) return true;
+// 这里的 if(T->data == x) return true; 必须放最后一句
+bool find(BTree T, const DataType x){
+    // cout << "in" << (int)(T->data == x) << endl;
+
     if(T->right) find(T->right, x);
-    if(T->left) find(T->left, x);
+    else if(T->left) find(T->left, x);
+    else if(T->data == x) return true;
 }
 
 //递归创建树
@@ -75,7 +72,7 @@ bool root(DataType &x, const BTree T){
 
 
 //清空二叉树
-void clearBTree(BTree &T){
+void clearBTree(BTree T){
     if(isEmpty(T)) return;
     clearBTree(T->left);
     clearBTree(T->right);

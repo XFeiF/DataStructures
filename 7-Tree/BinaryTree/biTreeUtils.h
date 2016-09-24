@@ -1,0 +1,5 @@
+#include "biTree.h"
+#include "biTreeFunc.cpp"
+#include "HierarchyTraversal.cpp"
+#include "Non-Recursive.cpp"
+#include "RecursiveTraversal.cpp"

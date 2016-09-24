@@ -1,4 +1,3 @@
-#include "biTree.h"
 #include <iostream>
 using namespace std;
 
@@ -10,7 +9,7 @@ Recursive Travel
 3.后序
 */
 
-void R_PreOrder(BTree &T){
+void R_PreOrder(BTree T){
     if(!isEmpty(T)){
         cout<< T->data <<" ";
         if(T->left)
@@ -20,7 +19,7 @@ void R_PreOrder(BTree &T){
     }
 }
 
-void R_InOrder(BTree &T){
+void R_InOrder(BTree T){
     if(!isEmpty(T)){
         if(T->left)
             R_InOrder(T->left);
@@ -31,12 +30,12 @@ void R_InOrder(BTree &T){
 }
 
 
-void R_PostOrder(BTree &T){
+void R_PostOrder(BTree T){
     if(!isEmpty(T)){
         if(T->left)
-            R_InOrder(T->left);
+            R_PostOrder(T->left);
         if(T->right)
-            R_InOrder(T->right);
+            R_PostOrder(T->right);
         cout<< T->data <<" ";
     }
 }
