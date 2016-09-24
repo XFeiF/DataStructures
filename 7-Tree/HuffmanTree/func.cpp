@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstring>
-#include "dataStructure.h"
+#include <cstdlib>
 
 using namespace std;
 
@@ -18,7 +18,8 @@ HuffmanTree createHuffmanTree(int *wet,int n){
         HT[i].parent = -1;
         HT[i].left = -1;
         HT[i].right = -1;
-        HT[i].weight = wet[i];
+        HT[i].weight = *wet;
+        wet++;
     }
     for(; i < total; i++){
         HT[i].parent = -1;
@@ -32,7 +33,7 @@ HuffmanTree createHuffmanTree(int *wet,int n){
     for(i = n; i< total; i++){
         selectMinium(HT,i,min1,min2);
         HT[min1].parent = i;
-        HT[max0].parent = i;
+        HT[min2].parent = i;
         HT[i].left = min1;
         HT[i].right = min2;
         HT[i].weight = HT[min1].weight + HT[min2].weight;
@@ -51,7 +52,7 @@ int getMin(HuffmanTree HT, int k){
     min = i;
 
     for(;i < k; i++){
-        if(HT[I].weight < min_weight && HT[i].parent == -1){
+        if(HT[i].weight < min_weight && HT[i].parent == -1){
             min_weight = HT[i].weight;
             min = i;
         }
