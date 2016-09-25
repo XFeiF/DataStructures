@@ -1,4 +1,4 @@
-#include <isotream>
+#include <iostream>
 #include <cstdio>
 #include <cstdlib>
 using namespace std;
@@ -19,7 +19,7 @@ void Merge(int *a, int *b, int start, int mid, int end){
 
     //比较两个有序序列中的元素，将较小的元素插入到b中
     while(i<=mid && j <= end){
-        if(a[i]<a[j])
+        if(a[i] <= a[j])
             b[k++] = a[i++];
         else
             b[k++] = a[j++];
@@ -60,5 +60,5 @@ void mergeSort(int *a,int len)
 	int *b = (int *)malloc(len*sizeof(int));
 	MSort(a,b,0,len-1);
 	free(b);
-	brr = 0;
+	b = 0;
 }

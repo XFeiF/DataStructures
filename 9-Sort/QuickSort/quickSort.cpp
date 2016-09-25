@@ -1,4 +1,4 @@
-#include <isotream>
+#include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <time.h>
@@ -6,9 +6,9 @@ using namespace std;
 //分治思想，划分的方法很关键
 
 void swap(int &a,int &b){
-    a = a+b;
-    b = a-b;
-    a = a-b;
+    int t = a;
+    a = b;
+    b = t;
 }
 
 int pivotIndex(int low, int high){
