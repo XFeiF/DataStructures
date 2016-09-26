@@ -2,8 +2,8 @@
 Prim MinimumSpaningTree
 */
 
-#include "Graph.h"
-#include "log.h"
+//#include "Graph.h"
+//#include "log.h"
 #include <iostream>
 #include <cstdio>
 #include <queue>
@@ -59,11 +59,12 @@ void PrimMST(PGraph &pG, graph_info info){
 
     }
 
-    cout << "输出所有结点的父结点:" << endl;
+    cout << "Output the father node of all nodes:" << endl;
     for(int i = 0; i < nodes; i++)
          cout << parent[i] << " ";
      cout << endl;
-     cout << "最小生成树权值为：";
+
+     cout << "MST weight:";
      int cnt = 0;
      for(int i = 0; i < nodes; i++)
          cnt += vx[i].key;
