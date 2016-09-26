@@ -45,7 +45,6 @@
     3. 每种子结构有对应的功能测试文件xxxDemo.cpp
 ####TodoList:
     1. Graph AdjList Demo and Debug
-    2. Graph AdjMatrix Demo and Debug
 
 ####DoneList:
     1. LinearList
