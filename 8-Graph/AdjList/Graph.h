@@ -1,5 +1,5 @@
 /*
-Adjacency List 
+Adjacency List
 用邻接表作为图的存储结构
 在邻接表中，用一个一维数组存储图中的每个顶点的信息
 同时为每个顶点建立一个单链表，链表中的节点保存依附在该顶点上的边或者弧的信息
@@ -16,11 +16,13 @@ typedef struct NODE{
     int dest;
     int distance;
     struct NODE *next;
+
+   
 }Node, *PNode;
 
 struct list
 {
-	PNode head;	
+	PNode head;
 };
 
 

@@ -1,16 +1,13 @@
-#include "Graph.h"
-#include "log.h"
+//#include "Graph.h"
+//#include "log.h"
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <assert.h>
 using namespace std;
 
-bool create(PGraph &pG){
-    int nodes;
-    cout << "Please input node num:(<=20)";
-    cin >> nodes;
-    assert(nodes > 0 && nodes <= MAX_VERTEX_NUM);
+bool create(PGraph &pG, int nodes){
+    
     pG = (PGraph)malloc(sizeof(GRAPH));
     if(pG == NULL){
         LOG("creation of graph failed. Return");
@@ -38,12 +35,12 @@ bool deleteGraph(PGraph &pG){
             prevNode = nextNode;
         }
     }
-    delete [] nodeList;
+    delete [] pG->nodeList;
 }
 
 
 bool checkIfValidVertex(PGraph &pG, int v){
-    if(v < 0 || v > pG->m_numOfNodes)
+    if(v < 0 || v > pG->m_numOfNodes - 1)
         return false;
     else return true;
 }
@@ -89,7 +86,7 @@ void addDirectedEdge(PGraph &pG, int from, int to, int distance){
 }
 
 PNode createNode(int from, int to, int distance){
-    PNode pN = (PNode)malloc(sizeof(node));
+    PNode pN = (PNode)malloc(sizeof(Node));
     if(pN == NULL ){
         LOG("Malloc failed!");
         return NULL;
