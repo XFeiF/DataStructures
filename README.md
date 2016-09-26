@@ -44,7 +44,7 @@
     2. 每个子结构占一个子文件夹
     3. 每种子结构有对应的功能测试文件xxxDemo.cpp
 ####TodoList:
-    1. Graph AdjList Demo and Debug
+    
 
 ####DoneList:
     1. LinearList
@@ -58,8 +58,25 @@
     9. Sort
 
 ####Algorithms Included:
+    Sort
+        1. BubbleSort
+        2. HeapSort
+        3. InsertSort
+        4. MergeSort
+        5. QucikSort
+        6. SelectionSort
+        7. ShellSort
 
-
+    Graph
+        1. BFS
+        2. DFS
+        3. Minimum Spanning Tree  Kruskal
+        4. Minimum Spanning Tree  Prim
+        5. Shortest Path Dijkastra
+        6. Shortest Path Floyd
+        7. BinarySearchTree
+        8. HuffmanTree
+        9. KMP
 
 ####Attention:  
     UTF-8  
