@@ -1,10 +1,13 @@
-#include "Graph.h"
+//#include "Graph.h"
 #include "log.h"
+#include <queue>
+#include <iostream>
+using namespace std;
 void BFS(PGraph &pG, graph_info info){
     bool *m_visitedArray;
     int source = info.source;
 
-    if (!graph->checkIfValidVertex(pG, source)) {
+    if (!checkIfValidVertex(pG, source)) {
 	    LOG("start vertex is not a valid one");
 		return;
 	}
@@ -14,20 +17,21 @@ void BFS(PGraph &pG, graph_info info){
         m_visitedArray[i] = false;
     }
 
-    std::queue<int> queue;
-    queue.push(source);
+    queue<int> qu;
+    qu.push(source);
 
-    while(!queue.empty()){
-        int curVex = queue.front();
+    while(!qu.empty()){
+        int curVex = qu.front();
         LOG(curVex);
         m_visitedArray[curVex] = true;
-        queue.pop();
+        qu.pop();
 
         PNode it = getNode(pG, curVex);
         while(it != NULL){
             int vertex = it->dest;
+           // cout<<it->source << "  ->  " << vertex << endl;
             if(!m_visitedArray[vertex]){
-                queue.push(vertex);
+                qu.push(vertex);
                 m_visitedArray[vertex] = true;
             }
             it = it->next;
