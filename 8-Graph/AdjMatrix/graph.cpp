@@ -8,7 +8,7 @@ using namespace std;
 //创建图
 bool create(PMGraph& pMG){
     cout << "Please input the type of the graph!";
-    cout << "{1, 2, 3, 4}  ==>  {有向图，有向网，无向图，无向网}"<<endl;
+    cout << "{1, 2, 3, 4}  ==>  {DirectedGraph, DirectedNet, UnDirectedGraph, UnDirectedNe}"<<endl;
     int type;
     cin>>type;
     assert(type > 0 && type < 5);
@@ -30,9 +30,10 @@ bool createG(PMGraph& pMG){
     int vexnum;
     cout << "Please input the vertex num:(<= 20)"<<endl;
     cin >> vexnum;
-    assert(vexnum > 0 && vexnum <=20)
+    assert(vexnum > 0 && vexnum <=20);
     pMG->vexnum = vexnum;
-    
+    pMG->arcnum = 0;
+
     cout << "Please input the vertex value:(char)"<<endl;
     VertexType vexV;
     for(int i = 0; i < vexnum; i++){
@@ -42,19 +43,24 @@ bool createG(PMGraph& pMG){
     }
 
     //初始化邻接矩阵
+
     for(int i = 0; i <vexnum; i++)
-        for(int j = 0; j < vexnum; j++)
-            pMG->arcs[i][j]->val = 0;
-    
-    cout << "Add arcs!\n Please input 'from' and 'to' :"
+        for(int j = 0; j < vexnum; j++){
+            if(pMG->kind == 1 || pMG->kind == 3)
+                pMG->arcs[i][j].adj = 0;
+            else   pMG->arcs[i][j].adj = INF;
+        }
+
+
+
+    cout << "Add arcs!\n Please input 'from' and 'to' :";
     int from,to;
-    scanf("%d%d",&from, &to) == 2
-    while(checkIfValidVertex(pMG,from) && checkIfValidVertex(pMG,to)){
-            insertArc(pMG, from, to);
-        cout << "Please input 'from' and 'to' :"            
-        scanf("%d%d",&from, &to) == 2        
+
+    while(scanf("%d%d",&from, &to)==2 && checkIfValidVertex(pMG,from) && checkIfValidVertex(pMG,to)){
+        insertArc(pMG, from, to);
+        cout << "Please input 'from' and 'to' :" ;
     }
-    
+
     return true;
 }
 
@@ -99,37 +105,38 @@ void printGraph(const PMGraph pMG){
     else if(kind == 2) cout << "Graph Type: Directed Network!\n";
     else if(kind == 3) cout << "Graph Type: UnDirected Graph!\n";
     else if(kind == 4) cout << "Graph Type: UnDirected Network!\n";
-    
+
     int vexnum = pMG->vexnum, arcnum = pMG->arcnum;
     cout << "Graph vertex number:" <<vexnum <<".\n";
     cout << "Graph arc number:" << arcnum <<".\n";
-    
+
     cout << "Vertex Set:\n";
     for(int i = 0; i < vexnum; i++)
         cout << pMG->vexs[i] << "   ";
-    
+
     cout << "\nAdjacency Martrix:\n";
+    int i,j;
     for (i = 0; i < vexnum; i++) {
         j = 0;
         for (; j < vexnum-1; j++) {
-           cout << pMG->arcs[i][j]) << "  ";
+           cout << pMG->arcs[i][j].adj << "  ";
         }
-        cout << pMG->arcs[i][j]) <<endl;
+        cout << pMG->arcs[i][j].adj <<endl;
     }
-    
+
 
 }
 
 //顶点是否存在
 bool checkIfValidVertex(const PMGraph pMG,const int vertex){
-    if(vertex < 0 || vertex > pMG->vexnum)
+    if(vertex < 0 || vertex >= pMG->vexnum)
         return false;
     else return true;
 }
 
 //图为空 返回true
 bool empty(const PMGraph pMG){
-    if(pMG) return true;
+    if(!pMG) return true;
     else return false;
 }
 
@@ -137,7 +144,7 @@ bool empty(const PMGraph pMG){
 int getVexCount(const PMGraph pMG){
     if(!empty(pMG))
         return pMG->vexnum;
-    else return NULL;
+    else return 0;
 }
 
 
@@ -146,14 +153,14 @@ int getVexCount(const PMGraph pMG){
 VertexType getVex(const PMGraph pMG, int v){
     if(!empty(pMG) && checkIfValidVertex(pMG,v))
         return pMG->vexs[v];
-    else return NULL;
+    else return 0;
 }
 
 //对图G中的V顶点赋值value
 bool putVex(PMGraph pMG, int v, VertexType value){
     if(!empty(pMG) && checkIfValidVertex(pMG,v)){
         pMG->vexs[v] = value;
-        return true;        
+        return true;
     }
     else return false;
 }
@@ -161,56 +168,64 @@ bool putVex(PMGraph pMG, int v, VertexType value){
 //返回图G中V的第一个邻接顶点
 int firstAdjVex(const PMGraph pMG, int v){
     if(!empty(pMG) && checkIfValidVertex(pMG,v)){
-        if(pMG->kind > 2){
+        if(pMG->kind == 1|| pMG->kind == 3){
             for(int i = 0; i < pMG->vexnum; i++){
-                if(pMG->arcs[v][i]->adj) return i;
+                if(pMG->arcs[v][i].adj) return i;
             }
         }else{
             for(int i = 0; i < pMG->vexnum; i++){
-                if(pMG->arcs[v][i]->adj != INF)
+                if(pMG->arcs[v][i].adj != INF)
                  return i;
             }
         }
-        return NULL;
+        return 0;
     }
 }
 
 //在图G的V和W顶点之间增加弧<v,w>,若G是无向的，多增加<w,v>
 bool insertArc(PMGraph &pMG, int v, int w){
-    if(!empty(pMG) 
-       && checkIfValidVertex(pMG,v) 
+    //cout << (int)(!empty(pMG)) << (int)(checkIfValidVertex(pMG,v)) << (int)(checkIfValidVertex(pMG,w)) <<endl;
+    if(!empty(pMG)
+       && checkIfValidVertex(pMG,v)
        && checkIfValidVertex(pMG,w)
        && v!=w){
-           if(pMG->kind == 1) pMG->arcs[v][w]->adj = 1;
-           else if(pMG->kind == 3) pMG->arcs[v][w]->adj = pMG->arcs[w][v]->adj = 1;
+           if(pMG->kind == 1) {
+               pMG->arcs[v][w].adj = 1;
+              // cout << "debug in" <<endl;
+           }
+           else if(pMG->kind == 3) pMG->arcs[v][w].adj = pMG->arcs[w][v].adj = 1;
            else if(pMG->kind == 2) {
                cout << "Please input the arc value:" <<endl;
                VRType value;
                cin >> value;
-               pMG->arcs[v][w]->adj = value;
+               pMG->arcs[v][w].adj = value;
            }else if(pMG->kind == 4){
                cout << "Please input the arc value:" <<endl;
                VRType value;
                cin >> value;
-               pMG->arcs[v][w]->adj = pMG->arcs[w][v]->adj = value;
+               pMG->arcs[v][w].adj = pMG->arcs[w][v].adj = value;
            }
+          // cout << pMG->arcs[v][w].adj << "   ";
            pMG->arcnum++;
            return true;
        }
-    
+
     else return false;
 }
 
 //在图G的V和W顶点之间删除弧<v,w>，若G是无向的，多删除<w,v>
 bool deleteArc(PMGraph &pMG, int v, int w){
-    if(!empty(pMG) 
-       && checkIfValidVertex(pMG,v) 
+    if(!empty(pMG)
+       && checkIfValidVertex(pMG,v)
        && checkIfValidVertex(pMG,w)
        && v!=w){
-           if(pMG->kind == 1) pMG->arcs[v][w]->adj = 0;
-           else if(pMG->kind == 2) pMG->arcs[v][w]->adj = pMG->arcs[w][v]->adj = 0;
-           else if(pMG->kind == 2) pMG->arcs[v][w]->adj = INF;
-           else pMG->arcs[v][w]->adj = pMG->arcs[w][v]->adj = INF;
+           if(pMG->kind == 1){
+                pMG->arcs[v][w].adj = 0;
+              // cout << "debug in" <<endl;
+           }
+           else if(pMG->kind == 2) pMG->arcs[v][w].adj = pMG->arcs[w][v].adj = 0;
+           else if(pMG->kind == 2) pMG->arcs[v][w].adj = INF;
+           else pMG->arcs[v][w].adj = pMG->arcs[w][v].adj = INF;
            pMG->arcnum--;
            return true;
        }
@@ -225,14 +240,14 @@ bool insertVex(PMGraph &pMG){
             VertexType vV;
             cout << "Please input the vertex value(here type is char):"<<endl;
             cin >> vV;
-            pMG->vex[v] = vV;
+            pMG->vexs[v] = vV;
             if(pMG->kind == 1 || pMG->kind == 3){
                 for(int i = 0; i < v+1; i++){
-                    pMG->arcs[i][v]->adj = pMG->arcs[v][i] = 0;
+                    pMG->arcs[i][v].adj = pMG->arcs[v][i].adj = 0;
                 }
             }else {
                 for(int i = 0; i < v+1; i++){
-                    pMG->arcs[i][v]->adj = pMG->arcs[v][i] = INF;
+                    pMG->arcs[i][v].adj = pMG->arcs[v][i].adj = INF;
                 }
             }
             pMG->vexnum++;
@@ -245,44 +260,44 @@ bool insertVex(PMGraph &pMG){
 //在图G中删除顶点V及其相关的弧
 bool deleteVex(PMGraph &pMG, int v){
     if(!empty(pMG) && checkIfValidVertex(pMG,v)){
-        num = pMG->vexnum;        
+        int num = pMG->vexnum;
         //该顶点的度，即与该点相关的边的数目
         int lenNum = 0;
         for(int i = 0; i < num; i++){
-            if(pMG->arcs[v][i]->val) lenNum++;
-            if(pMG->arcs[i][v]->val) lenNum++;
+            if(pMG->arcs[v][i].adj) lenNum++;
+            if(pMG->arcs[i][v].adj) lenNum++;
         }
         if(pMG->kind > 2) //若是无向的
             lenNum /= 2;
-        
-        
-        
+
+
+
         //先调整关系矩阵
         for(int i = 0; i < num; i++)
             for(int j = 0; j < num; j++){
                 if(i > v && j > v)
-                    pMG->arcs[i-1][j-1]->val = pMG->arcs[i][j]->val;
+                    pMG->arcs[i-1][j-1].adj = pMG->arcs[i][j].adj;
                 else if(i > v)
-                    pMG->arcs[i-1][j]->val = pMG->arcs[i][j]->val;
+                    pMG->arcs[i-1][j].adj = pMG->arcs[i][j].adj;
                 else if(j > v)
-                    pMG->arcs[i][j-1]->val = pMG->arcs[i][j]->val;
+                    pMG->arcs[i][j-1].adj = pMG->arcs[i][j].adj;
             }
-        
+
         //调整后，邻接矩阵下边和右边无意义了
         for(int i = 0; i < num; i++){
-            pMG->arcs[num-1][i]->val = 0;
-            pMG->arcs[i][num-1]->val = 0;
+            pMG->arcs[num-1][i].adj = 0;
+            pMG->arcs[i][num-1].adj = 0;
         }
 
         //再调整顶点数组
             for(int i = v; i < num; i++)
-                pMG->vex[i] = pMG->vex[i+1];
-            pMG->vex[num-1] = NULL;
+                pMG->vexs[i] = pMG->vexs[i+1];
+            pMG->vexs[num-1] = 0;
             pMG->vexnum--;
             pMG->arcnum -= lenNum;
 
             return true;
     }
     else return false;
-    
+
 }

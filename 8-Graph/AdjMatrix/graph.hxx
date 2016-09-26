@@ -1,3 +1,4 @@
+#include <iostream>
 const int INF = INT_MAX;                    //最大值正无穷
 const int MAX_VERTEX_NUM = 20;              //最大顶点个数
 typedef int GraphKind;  //{1, 2, 3, 4} ==> {DG, DN, UDG, UDN} - > {有向图，有向网，无向图，无向网}
@@ -68,7 +69,3 @@ bool insertVex(PMGraph &pMG);
 
 //在图G中删除顶点V及其相关的弧
 bool deleteVex(PMGraph &pMG, int v);
-
-
-
-
