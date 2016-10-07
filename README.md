@@ -1,5 +1,9 @@
 ###Data Structures in C++
 
+###For beginners:  
+
+[Some Suggestions->see my blog](http://x-fei.me/ds/)
+
 ####Goal:
 
     1. LinearList
